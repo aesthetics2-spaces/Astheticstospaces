@@ -8,7 +8,7 @@ export default function AuthCallback() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       if (data.session) {
-        navigate("/gallery");
+        navigate("/");
       }
     });
   }, []);
