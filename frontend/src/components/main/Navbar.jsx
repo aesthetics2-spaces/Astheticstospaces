@@ -153,8 +153,9 @@ const MobileMenu = React.memo(({
                       <Wallet className="mr-3 h-4 w-4" />
                       <span>Credits</span>
                       <Badge variant="secondary" className="ml-auto">
-                        8
-                      </Badge>
+  {userCreditsDisplay}
+</Badge>
+
                     </Button>
                     <Button
                       variant="ghost"
@@ -201,7 +202,7 @@ MobileMenu.displayName = "MobileMenu";
 
 // Navbar Component
 export default function Navbar() {
-  const { isLoggedIn} = useAuth();
+  const { isLoggedIn, credits, loadingCredits } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -216,7 +217,7 @@ export default function Navbar() {
     [isLoggedIn]
   );
 
-  const userCredits = 8;
+  const userCreditsDisplay = loadingCredits ? "..." : credits;
 
   const handleNavClick = (item) => {
     if (item.requiresAuth && !isLoggedIn) {
@@ -246,7 +247,7 @@ export default function Navbar() {
 
             {/* Logo */}
             <Link 
-              to={isLoggedIn ? "/gallery" : "/"} 
+              to={"/"} 
               className="flex items-center gap-3 group"
             >
               <div className="relative h-10 w-10 overflow-hidden rounded-lg ">
@@ -307,8 +308,9 @@ export default function Navbar() {
                     <Wallet className="h-4 w-4" />
                     <span>Credits</span>
                     <Badge variant="secondary" className="ml-1">
-                      {userCredits}
-                    </Badge>
+  {userCreditsDisplay}
+</Badge>
+
                   </Button>
 
                   <DropdownMenu>
@@ -382,7 +384,8 @@ export default function Navbar() {
             </DialogDescription>
           </DialogHeader>
           <div className="py-4 text-center">
-            <div className="text-4xl font-bold text-primary mb-2">{userCredits}</div>
+          <div className="text-4xl font-bold text-primary mb-2">{userCreditsDisplay}</div>
+
             <p className="text-sm text-muted-foreground">Available Credits</p>
           </div>
           <DialogFooter className="sm:justify-between">

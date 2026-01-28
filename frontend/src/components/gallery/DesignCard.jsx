@@ -9,7 +9,9 @@ const DesignCard = ({
   image,
   style,
   budget,
+  price,
   room,
+  roomType,
   isVerified = false,
   badge,
   onFavorite,
@@ -17,7 +19,18 @@ const DesignCard = ({
 }) => {
   const [imgLoaded, setImgLoaded] = useState(false);
 
-  const detailUrl = `/design/${id}${room ? `?room=${room}` : ""}`;
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 0,
+    }).format(value);
+  };
+
+  const displayPrice = price || budget;
+  const displayRoom = room || roomType;
+
+  const detailUrl = `/design/${id}${displayRoom ? `?room=${displayRoom}` : ""}`;
 
   return (
     <motion.article
@@ -58,6 +71,15 @@ const DesignCard = ({
 
           {/* Top badges */}
           <div className="absolute left-3 top-3 flex flex-wrap gap-2">
+            {displayRoom && (
+              <motion.span
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="rounded-full bg-background/90 px-2.5 py-1 text-[0.65rem] font-semibold text-foreground backdrop-blur-sm ring-1 ring-border/50"
+              >
+                {displayRoom}
+              </motion.span>
+            )}
             {isVerified && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -129,10 +151,11 @@ const DesignCard = ({
             </div>
           </div>
 
-          {budget && (
-            <div className="flex items-center gap-2">
-              <span className="inline-flex items-center rounded-md bg-primary/10 px-2 py-1 text-xs font-semibold text-primary">
-                {budget}
+          {displayPrice && (
+            <div className="flex items-center justify-between pt-2 border-t border-border/50">
+              <span className="text-xs text-muted-foreground">Starting from</span>
+              <span className="text-lg font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                {formatCurrency(displayPrice)}
               </span>
             </div>
           )}

@@ -19,8 +19,16 @@ import NotFound404 from "./pages/NotFound404";
 import ForgotPasswordPage from "./pages/ForgotPassword";
 import AuthCallback from "./pages/AuthCallback";
 import ScrollToTop from "./components/main/ScrollToTop";
+import ProtectedRoute from "./protectroute/ProtectedRoute";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import UploadDesign from "./pages/admin/UploadDesign";
+import ManageDesigns from "./pages/admin/ManageDesigns";
+// import useAuthListener from "./hooks/useAuthListener";
+
 
 function App() {
+  // useAuthListener();
   return (
     <Routes>
       {/* Routes with Navbar and Footer */}
@@ -32,11 +40,11 @@ function App() {
             <Navbar />
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/gallery" element={ <ProtectedRoute><Gallery /></ProtectedRoute>} />
               <Route path="/design/:id" element={<DesignDetails />} />
               <Route path="/saved" element={<Saved />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/ai-consultant" element={<AIConsultant />} />
+              <Route path="/ai-consultant" element= {<ProtectedRoute><AIConsultant /></ProtectedRoute> } />
               <Route path="/how-it-works" element={<Home />} />
               <Route path="/feedback" element={<Feedback />} />
               <Route path="/waitlist" element={<Waitlist />} />
@@ -53,6 +61,10 @@ function App() {
       <Route path="/auth/callback" element={<AuthCallback />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/onboarding" element={<Onboarding />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin/dashboard"element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>}/>
+  <Route path="/admin/upload"element={<ProtectedRoute><UploadDesign /></ProtectedRoute>}/> 
+  <Route path="/admin/manage"element={<ProtectedRoute><ManageDesigns /></ProtectedRoute>}/>
     </Routes>
   );
 }
